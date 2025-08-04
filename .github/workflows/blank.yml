@@ -1,0 +1,29 @@
+name: Download File and Commit
+
+on:
+  workflow_dispatch:  # run manually, or change to schedule/push if needed
+
+jobs:
+  download-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Download file
+      run: |
+        curl -L "https://raw.githubusercontent.com/zaproxy/zap-admin/master/ZapVersions-dev.xml" -o "downloaded/file.txt"
+
+    - name: Configure Git
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Commit and push if changes
+      run: |
+        git add downloaded/file.txt
+        git diff --cached --quiet || git commit -m "Add downloaded file"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
