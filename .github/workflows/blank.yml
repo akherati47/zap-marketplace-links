@@ -23,6 +23,7 @@ jobs:
 
     - name: Commit and push if changes
       run: |
+        git pull
         git add downloaded/file.txt
         git diff --cached --quiet || git commit -m "Add downloaded file"
         git push
