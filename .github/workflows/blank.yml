@@ -13,6 +13,7 @@ jobs:
 
     - name: Download file
       run: |
+        mkdir -p downloaded
         curl -L "https://raw.githubusercontent.com/zaproxy/zap-admin/master/ZapVersions-dev.xml" -o "downloaded/file.txt"
 
     - name: Configure Git
